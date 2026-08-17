@@ -12,24 +12,21 @@ class Quiz:
         self.root.resizable(False, False)
         self.root.configure(bg="#2C3E50")
 
-        # --- Quiz state variables ---
+
         self.score = 0
         self.current_question_index = 0
         self.total_questions = 0
         self.quiz_data = []
 
-        # --- Load quiz data from JSON ---
         self.load_quiz_data()
 
-        # --- Build the GUI ---
         self.setup_gui()
 
-        # --- Display the first question ---
         self.display_question()
 
     def load_quiz_data(self):
         """Load questions, options, and answers from the JSON file."""
-        # Try the same directory as the script first, then the current working directory
+        
         script_dir = os.path.dirname(os.path.abspath(__file__))
         possible_paths = [
             os.path.join(script_dir, "quiz_data.json"),
@@ -64,7 +61,7 @@ class Quiz:
 
     def setup_gui(self):
         """Create and arrange all GUI elements."""
-        # --- Title Label ---
+       
         self.title_label = tk.Label(
             self.root,
             text="MTAHINI QUIZ APP",
@@ -75,7 +72,6 @@ class Quiz:
         )
         self.title_label.pack(fill=tk.X)
 
-        # --- Question Number Label ---
         self.question_number_label = tk.Label(
             self.root,
             text="",
@@ -87,7 +83,6 @@ class Quiz:
         )
         self.question_number_label.pack(fill=tk.X)
 
-        # --- Question Text Label ---
         self.question_label = tk.Label(
             self.root,
             text="",
@@ -100,14 +95,12 @@ class Quiz:
         )
         self.question_label.pack(fill=tk.X)
 
-        # --- Options Frame ---
         self.options_frame = tk.Frame(self.root, bg="#2C3E50")
         self.options_frame.pack(pady=10, padx=40, fill=tk.BOTH, expand=True)
 
         self.option_buttons = []
         self.selected_option = tk.StringVar()
 
-        # --- Score Label ---
         self.score_label = tk.Label(
             self.root,
             text="Score: 0",
@@ -121,30 +114,26 @@ class Quiz:
 
     def display_question(self):
         """Display the current question and its options on the GUI."""
-        # Clear previous option buttons
+       
         for button in self.option_buttons:
             button.destroy()
         self.option_buttons.clear()
         self.selected_option.set(None)
 
         if self.current_question_index >= self.total_questions:
-            # Quiz is finished (handled in future steps)
+            
             return
 
-        # Get current question data
         question_data = self.quiz_data[self.current_question_index]
         question_text = question_data["question"]
         options = question_data["options"]
 
-        # Update question number label
         self.question_number_label.config(
             text=f"Question {self.current_question_index + 1} of {self.total_questions}"
         )
 
-        # Update question text
         self.question_label.config(text=question_text)
 
-        # Create option radio buttons
         for i, option in enumerate(options):
             option_letter = chr(65 + i)  # A, B, C, D ...
             btn = tk.Radiobutton(
@@ -167,7 +156,6 @@ class Quiz:
             self.option_buttons.append(btn)
 
 
-# --- Run the Application ---
 if __name__ == "__main__":
     root = tk.Tk()
     quiz = Quiz(root)
